@@ -307,7 +307,6 @@ function ProductList({ onHomeClick }) {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 256 256"
-                    id="IconChangeColor"
                     height="68"
                     width="68"
                   >
@@ -321,7 +320,6 @@ function ProductList({ onHomeClick }) {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      id="mainIconPathAttribute"
                     ></path>
                   </svg>
                 </h1>
