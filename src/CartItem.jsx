@@ -8,17 +8,23 @@ const CartItem = ({ onContinueShopping }) => {
   const dispatch = useDispatch();
 
   const calculateTotalAmount = () => {
-    return cart
-      .reduce((total, item) => {
-        const itemCost = parseFloat(item.cost.replace('$', ''));
-        return total + itemCost * item.quantity;
-      }, 0)
-      .toFixed(2);
+    let total = 0;
+
+    cart.forEach((item) => {
+      const itemCost = parseFloat(item.cost.substring(1));
+      total += itemCost * item.quantity;
+    });
+
+    return total.toFixed(2);
   };
 
   const handleContinueShopping = (e) => {
     e.preventDefault();
-    onContinueShopping();
+    onContinueShopping(e);
+  };
+
+  const handleCheckoutShopping = (e) => {
+    alert('Functionality to be added for future reference');
   };
 
   const handleIncrement = (item) => {
@@ -38,6 +44,8 @@ const CartItem = ({ onContinueShopping }) => {
           quantity: item.quantity - 1,
         })
       );
+    } else {
+      dispatch(removeItem(item.name));
     }
   };
 
@@ -46,8 +54,7 @@ const CartItem = ({ onContinueShopping }) => {
   };
 
   const calculateTotalCost = (item) => {
-    const itemCost = parseFloat(item.cost.replace('$', ''));
-    return (itemCost * item.quantity).toFixed(2);
+    return (parseFloat(item.cost.substring(1)) * item.quantity).toFixed(2);
   };
 
   return (
@@ -58,7 +65,6 @@ const CartItem = ({ onContinueShopping }) => {
         {cart.map((item) => (
           <div className="cart-item" key={item.name}>
             <img className="cart-item-image" src={item.image} alt={item.name} />
-
             <div className="cart-item-details">
               <div className="cart-item-name">{item.name}</div>
               <div className="cart-item-cost">{item.cost}</div>
@@ -70,9 +76,7 @@ const CartItem = ({ onContinueShopping }) => {
                 >
                   -
                 </button>
-
                 <span className="cart-item-quantity-value">{item.quantity}</span>
-
                 <button
                   className="cart-item-button cart-item-button-inc"
                   onClick={() => handleIncrement(item)}
@@ -91,14 +95,14 @@ const CartItem = ({ onContinueShopping }) => {
         ))}
       </div>
 
-      <div style={{ marginTop: '20px', color: 'black' }} className="total_cart_amount"></div>
-
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>
           Continue Shopping
         </button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        <button className="get-started-button1" onClick={handleCheckoutShopping}>
+          Checkout
+        </button>
       </div>
     </div>
   );
